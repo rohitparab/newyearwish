@@ -1,62 +1,69 @@
-document.addEventListener("DOMContentLoaded", function(){
-    var memeForm = document.getElementById("meme-form");
-    var listGallery = document.querySelector(".gallery");
+var text_title ="Overlay text";
+var imageLoader = document.getElementById('imageLoader');
+    imageLoader.addEventListener('change', handleImage, false);
+var canvas = document.getElementById('imageCanvas');
+var ctx = canvas.getContext('2d');
+var img = new Image();
+img.crossOrigin="anonymous";
 
-memeForm.addEventListener("submit", function(event){
-     event.preventDefault();
+window.addEventListener('load', DrawPlaceholder)
 
-        // creating the li element
+function DrawPlaceholder() {
+    img.onload = function() {
+        DrawOverlay(img);
+        DrawText();
+        DynamicText(img)
+    };
+    img.src = 'https://unsplash.it/400/400/?random';
+  
+}
+function DrawOverlay(img) {
+    ctx.drawImage(img,0,0);
+    ctx.fillStyle = 'rgba(30, 144, 255, 0.4)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+function DrawText() {
+    ctx.fillStyle = "white";
+    ctx.textBaseline = 'middle';
+    ctx.font = "50px 'Montserrat'";
+    ctx.fillText(text_title, 50, 50);
+}
+function DynamicText(img) {
+  document.getElementById('name').addEventListener('keyup', function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    DrawOverlay(img);
+    DrawText(); 
+    text_title = this.value;
+    ctx.fillText(text_title, 50, 50);
+  });
+}
+function handleImage(e) {
+    var reader = new FileReader();
+    var img = "";
+    var src = "";
+    reader.onload = function(event) {
+        img = new Image();
+        img.onload = function() {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img,0,0);
+        }
+        img.src = event.target.result;
+        src = event.target.result;
+        canvas.classList.add("show");
+        DrawOverlay(img);
+        DrawText(); 
+        DynamicText(img);   
+    }
 
-    var memeLi = document.createElement('li');
-    memeLi.classList.add("meme-img");
-
-
-
-    
-    // creating the canvas element to put our img background
-        var topText = document.getElementById("text-top");
-        var urlInput = document.getElementById('uploaded-img').value,
-        src =  urlInput,
-        img = document.createElement('img');
-       // img.src = src;
-        // img.width = "500";
-        img.src='../happynewyear.jpg'
-
-    var topTextDiv = document.createElement('div');
-    topTextDiv.classList.add("text", "top");
-    topTextDiv.innerText = document.getElementById("text-top").value;
-
-
-    var bottomTextDiv = document.createElement('div');
-    bottomTextDiv.classList.add("text", "bottom");
-    bottomTextDiv.innerText = document.getElementById("text-bottom").value;
-
-   
-    
-
-
-listGallery.appendChild(memeLi);
-memeLi.appendChild(img);
-memeLi.appendChild(topTextDiv);
-memeLi.appendChild(bottomTextDiv);
-
-//memeLi.appendChild(removeButton);
-
-
-//    memeForm.reset();
-
-
-    });
-
-
-
-
-
-function remove(event){
-  event.target.parentNode.remove();
+    reader.readAsDataURL(e.target.files[0]); 
+ 
+}
+function convertToImage() {
+	window.open(canvas.toDataURL('png'));
+}
+document.getElementById('download').onclick = function download() {
+		convertToImage();
 }
 
 
-listGallery.addEventListener('click', remove, false);
-
-});

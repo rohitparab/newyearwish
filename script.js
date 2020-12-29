@@ -15,8 +15,10 @@ memeForm.addEventListener("submit", function(event){
     
     // creating the canvas element to put our img background
         var topText = document.getElementById("text-top");
+        var urlInput = document.getElementById('uploaded-img').value,
+        src =  urlInput,
         img = document.createElement('img');
-        img.src = "happynewyear.jpg";
+        img.src = src;
         // img.width = "500";
 
 
@@ -24,6 +26,10 @@ memeForm.addEventListener("submit", function(event){
     topTextDiv.classList.add("text", "top");
     topTextDiv.innerText = document.getElementById("text-top").value;
 
+
+    var bottomTextDiv = document.createElement('div');
+    bottomTextDiv.classList.add("text", "bottom");
+    bottomTextDiv.innerText = document.getElementById("text-bottom").value;
 
     var removeDiv = document.createElement('div');
     removeDiv.classList.add("red-cross");

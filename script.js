@@ -18,9 +18,9 @@ memeForm.addEventListener("submit", function(event){
         var urlInput = document.getElementById('uploaded-img').value,
         src =  urlInput,
         img = document.createElement('img');
-        img.src = src;
+       // img.src = src;
         // img.width = "500";
-
+        img.src="happynewyear.jpg"
 
     var topTextDiv = document.createElement('div');
     topTextDiv.classList.add("text", "top");

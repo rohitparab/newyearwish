@@ -43,7 +43,7 @@ memeLi.appendChild(bottomTextDiv);
 //memeLi.appendChild(removeButton);
 
 
-    memeForm.reset();
+//    memeForm.reset();
 
 
     });
